@@ -3,13 +3,13 @@
 import brownie
 import pytest
 import time
-from helpers import helper_complete_first_round
+import helpers
 
 
 # checking the allowed limit trade boundry
 def test_trade_more_than_allowed_limit(upVsDownGameV2, accounts, ether, irrevelent_num):
 
-    helper_complete_first_round(
+    helpers.complete_first_round(
         upVsDownGameV2,
         accounts,
         ether,

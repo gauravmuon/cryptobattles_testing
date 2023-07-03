@@ -3,7 +3,7 @@
 import brownie
 import pytest
 import time
-from helpers import helper_complete_first_round
+import helpers
 
 # mind, in accounts address 0 is owner and address 1 is game controller
 # and first round will always be dummy round
@@ -65,7 +65,7 @@ def test_trade_with_delay_sync(upVsDownGameV2, accounts, ether, irrevelent_num):
 # because one is betting up and other is down
 def test_trade_fast_forward(upVsDownGameV2, accounts, ether, irrevelent_num):
 
-    helper_complete_first_round(
+    helpers.complete_first_round(
         upVsDownGameV2,
         accounts,
         ether,
@@ -106,12 +106,14 @@ def test_trade_fast_forward(upVsDownGameV2, accounts, ether, irrevelent_num):
 # # because up pool have two players and down pool will have zero
 def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_num):
 
-    helper_complete_first_round(
+    helpers.complete_first_round(
         upVsDownGameV2,
         accounts,
         ether,
         irrevelent_num
     )
+
+    # check the accout balances
 
     # doing some trades
     trade_1 = upVsDownGameV2.makeTrade(
@@ -154,7 +156,7 @@ def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_
 # # because down pool have two players and up pool will zero
 def test_trade_no_winnigs_as_all_down(upVsDownGameV2, accounts, ether, irrevelent_num):
 
-    helper_complete_first_round(
+    helpers.complete_first_round(
         upVsDownGameV2,
         accounts,
         ether,
