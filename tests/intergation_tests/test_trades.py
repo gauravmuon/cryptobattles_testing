@@ -10,55 +10,55 @@ from helpers import helper_complete_first_round
 
 # one trader should win in the second round out of two,
 # because one is betting up and other is down
-# # this testcase syncs delay as same on the blockchain
-# def test_trade_with_delay_sync(upVsDownGameV2, accounts, ether, irrevelent_num):
+# this testcase syncs delay as same on the blockchain
+def test_trade_with_delay_sync(upVsDownGameV2, accounts, ether, irrevelent_num):
 
-#     # starting the game by owner account
-#     game_started = upVsDownGameV2.startGame({"from": accounts[0]})
-#     # creating a pool by game controller account
-#     pool_1 = upVsDownGameV2.createPool(
-#         bytes(1), 5*ether, 50*ether, 50*ether, {"from": accounts[1]})
+    # starting the game by owner account
+    game_started = upVsDownGameV2.startGame({"from": accounts[0]})
+    # creating a pool by game controller account
+    pool_1 = upVsDownGameV2.createPool(
+        bytes(1), 5*ether, 50*ether, 50*ether, {"from": accounts[1]})
 
-#     round_1_started = upVsDownGameV2.trigger(bytes(1), time.time(
-#     ), time.time()+10, time.time()+20, 300, irrevelent_num, {"from": accounts[1]})
+    round_1_started = upVsDownGameV2.trigger(bytes(1), time.time(
+    ), time.time()+10, time.time()+20, 300, irrevelent_num, {"from": accounts[1]})
 
-#     time.sleep(10)  # delay for syncing block.timestamp on blockchain
+    time.sleep(10)  # delay for syncing block.timestamp on blockchain
 
-#     round_1_ended = upVsDownGameV2.trigger(bytes(1), time.time(), time.time(
-#     )+30, time.time()+40, 400, 0, {"from": accounts[1]})
+    round_1_ended = upVsDownGameV2.trigger(bytes(1), time.time(), time.time(
+    )+30, time.time()+40, 400, 0, {"from": accounts[1]})
 
-#     time.sleep(5)  # delay for syncing block.timestamp on blockchain
+    time.sleep(5)  # delay for syncing block.timestamp on blockchain
 
-#     # doing some trades
-#     # should win
-#     trade_1 = upVsDownGameV2.makeTrade(
-#         (bytes(1), "avatar1", "IN", True, "id1"),
-#         {"from": accounts[5], "value": 10*ether}
-#     )
-#     print("trade 1:" + str(trade_1.events))
+    # doing some trades
+    # should win
+    trade_1 = upVsDownGameV2.makeTrade(
+        (bytes(1), "avatar1", "IN", True, "id1"),
+        {"from": accounts[5], "value": 10*ether}
+    )
+    print("trade 1:" + str(trade_1.events))
 
-#     # should lose
-#     trade_2 = upVsDownGameV2.makeTrade(
-#         (bytes(1), "avatar2", "IN", False, "id2"),
-#         {"from": accounts[6], "value": 5*ether}
-#     )
-#     print("trade 2:" + str(trade_2.events))
+    # should lose
+    trade_2 = upVsDownGameV2.makeTrade(
+        (bytes(1), "avatar2", "IN", False, "id2"),
+        {"from": accounts[6], "value": 5*ether}
+    )
+    print("trade 2:" + str(trade_2.events))
 
-#     time.sleep(15)  # delay for syncing block.timestamp on blockchain
+    time.sleep(15)  # delay for syncing block.timestamp on blockchain
 
-#     round_2_started = upVsDownGameV2.trigger(bytes(1), time.time(
-#     ), time.time()+10, time.time()+20, 300, 1, {"from": accounts[1]})
+    round_2_started = upVsDownGameV2.trigger(bytes(1), time.time(
+    ), time.time()+10, time.time()+20, 300, 1, {"from": accounts[1]})
 
-#     round_2_ended = upVsDownGameV2.trigger(bytes(1), time.time(
-#     ), time.time()+30, time.time()+40, 400, 1, {"from": accounts[1]})
+    round_2_ended = upVsDownGameV2.trigger(bytes(1), time.time(
+    ), time.time()+30, time.time()+40, 400, 1, {"from": accounts[1]})
 
-#     print(str(round_2_ended.events))
+    print(str(round_2_ended.events))
 
-#     assert (len(round_2_ended.events["TradeWinningsSent"]) == 1)
-#     assert (round_2_ended.events["TradeWinningsSent"]
-#             [0]["winningsAmount"] == 4.75*ether)
-#     assert (len(round_2_ended.events["RoundDistributed"]) == 1)
-#     assert (round_2_ended.events["RoundDistributed"][0]["totalWinners"] == 1)
+    assert (len(round_2_ended.events["TradeWinningsSent"]) == 1)
+    assert (round_2_ended.events["TradeWinningsSent"]
+            [0]["winningsAmount"] == 4.75*ether)
+    assert (len(round_2_ended.events["RoundDistributed"]) == 1)
+    assert (round_2_ended.events["RoundDistributed"][0]["totalWinners"] == 1)
 
 
 # one trader should win in the second round out of two,
