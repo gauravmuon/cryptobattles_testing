@@ -5,9 +5,17 @@ import functools
 def complete_first_round(upVsDownGameV2, accounts, ether, irrevelent_num):
     # starting the game by owner account
     game_started = upVsDownGameV2.startGame({"from": accounts[0]})
+    pool_1_args = {
+        "poolId" : bytes(1), 
+        "minBetAmount" : 5*ether, 
+        "maxBetAmount" : 100*ether, 
+        "poolBetsLimit" : 5 # number of members allowed in up and down pool
+    }
     # creating a pool by game controller account
     pool_1 = upVsDownGameV2.createPool(
-        bytes(1), 5*ether, 100*ether, 50*ether, {"from": accounts[1]})
+        *list(pool_1_args.values()), 
+        {"from": accounts[1]}
+    )
 
     round_1_args_start = {
         "poolId": bytes(1),
@@ -32,16 +40,30 @@ def complete_first_round(upVsDownGameV2, accounts, ether, irrevelent_num):
     # confirm if no pending distributions
     has_pending_distribution = upVsDownGameV2.hasPendingDistributions(bytes(1))
     assert has_pending_distribution == False
+    return {
+        "game_started":game_started,
+        "pool_1":pool_1,
+        "pool_1_args":pool_1_args,
+        "round_1_started":round_1_started,
+        "round_1_ended":round_1_ended,
+    }
 
-    return [game_started, pool_1, round_1_started, round_1_ended]
 
 
 # mind, use int calculation for producing the exact result as in solidity
 # python follows float point calculation, be alert
 def calculate_winnings(upVsDownGameV2, accounts, trade_id_amount, winners_list):
-    fee_percentage = upVsDownGameV2.feePercentage()
 
+    # structure of
+    # trade_id_amount = {
+    #     # id : (amount_to_bet, is_winner, account_index)
+    #     "id1": (10*ether, False, 4),
+    #     "id2": (5*ether, True, 5),
+    # }
+
+    fee_percentage = upVsDownGameV2.feePercentage()
     winners_bet_amount = 0 # winners total amount
+
     for winner_id in winners_list:
         winners_bet_amount += trade_id_amount[winner_id][0]
 

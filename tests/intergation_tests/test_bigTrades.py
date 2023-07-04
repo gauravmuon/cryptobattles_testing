@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
 import brownie
-import functools
 import pytest
 import time
 import helpers
 
 
 # this function is used for converting `trade_id_amount` dict to actual txns
-def helper_big_trage(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount):
+def _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount):
 
     # structure of
     # trade_id_amount = {
@@ -18,7 +17,7 @@ def helper_big_trage(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_a
     #     "id3": (50*ether, True, 6),
     # }
 
-    helpers.complete_first_round(
+    round_init = helpers.complete_first_round(
         upVsDownGameV2,
         accounts,
         ether,
@@ -26,16 +25,18 @@ def helper_big_trage(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_a
     )
 
     # dictionary for storing the inital balance of account
-    original_amt_before_trade = {}
+    original_amt_before_trade = {} # {"id1":33*ether, "id2":10*ether, ...etc}
     winners_list = []  # will hold the ids of winner account ["id2","id3"..etc]
-    type_of_bools_used = set()
-
-    print(original_amt_before_trade)
+    type_of_bools_used = set() # can become [True, False]
 
     for id in trade_id_amount:
+        # pushing True or Flase (is winner) value, 
+        # for determining up and down pools emptyness
         type_of_bools_used.add(trade_id_amount[id][1])
-        original_amt_before_trade[id] = accounts[trade_id_amount[id][2]].balance(
-        )
+        
+        # storing the initial amt of engaged accounts
+        original_amt_before_trade[id] = accounts[trade_id_amount[id][2]].balance()
+
         make_trade_args = {
             "poolId": bytes(1),
             "avatarUrl": "avatar_"+id,
@@ -50,9 +51,8 @@ def helper_big_trage(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_a
                 "value": trade_id_amount[id][0]}
         )
         if trade_id_amount[id][1] == True:
+            # if account is set to be winners
             winners_list.append(id)
-
-    print(str(type_of_bools_used))
 
     # check if both up and down pools have members
     if len(type_of_bools_used) == 2:
@@ -100,9 +100,8 @@ def helper_big_trage(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_a
         {"from": accounts[1]}
     )
 
-    print(str(round_2_ended.events))
-
-    # check if both up and down pools have members
+    # check if both up and down pools have members, 
+    # type of bool should be [True, False]
     if len(type_of_bools_used) == 2:
         # confirming winners count, using events logs
         assert (
@@ -143,9 +142,7 @@ def test_big_trade_1(upVsDownGameV2, accounts, ether, irrevelent_num):
         "id5": (25*ether, False, 8),
         "id6": (30*ether, False, 9)
     }
-
-    helper_big_trage(upVsDownGameV2, accounts, ether,
-                     irrevelent_num, trade_id_amount)
+    _helper_big_trade(upVsDownGameV2, accounts, ether,irrevelent_num, trade_id_amount)
 
 
 def test_big_trade_2(upVsDownGameV2, accounts, ether, irrevelent_num):
@@ -159,8 +156,7 @@ def test_big_trade_2(upVsDownGameV2, accounts, ether, irrevelent_num):
         "id5": (25*ether, True, 8),
         "id6": (30*ether, True, 9)
     }
-    helper_big_trage(upVsDownGameV2, accounts, ether,
-                     irrevelent_num, trade_id_amount)
+    _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount)
 
 
 @pytest.mark.parametrize("idx", range(0, 3))
@@ -173,8 +169,7 @@ def test_big_trade_3(upVsDownGameV2, accounts, ether, irrevelent_num, idx):
         "id3": (50*ether, True, idx + 6),
         "id4": (10*ether, True, idx + 7),
     }
-    helper_big_trage(upVsDownGameV2, accounts, ether,
-                     irrevelent_num, trade_id_amount)
+    _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount)
 
 
 # no traders should win in this test case, rather trades should be returned
@@ -189,8 +184,7 @@ def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_
         "id4": (55*ether, False, 7),
         "id4": (85*ether, False, 8),
     }
-    helper_big_trage(upVsDownGameV2, accounts, ether,
-                     irrevelent_num, trade_id_amount)
+    _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount)
 
 
 # no traders should win in this test case, rather trades should be returned
@@ -206,5 +200,4 @@ def test_trade_no_winnigs_as_all_down(upVsDownGameV2, accounts, ether, irrevelen
         "id4": (70*ether, True, 8),
         "id4": (50*ether, True, 9),
     }
-    helper_big_trage(upVsDownGameV2, accounts, ether,
-                     irrevelent_num, trade_id_amount)
+    _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_amount)

@@ -137,8 +137,6 @@ def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_
         irrevelent_num
     )
 
-    # check the accout balances
-
     # doing some trades
     trade_1 = upVsDownGameV2.makeTrade(
         list({
