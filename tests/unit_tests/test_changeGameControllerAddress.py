@@ -12,6 +12,7 @@ def test_initial_game_controller_address(upVsDownGameV2, accounts):
 # updating fee addresses in loop, even inclueds game controller id
 @pytest.mark.parametrize("idx", range(0,10)) 
 def test_auth_update_game_controller_address(upVsDownGameV2, accounts, idx):
+    # upVsDownGameV2.changeGameControllerAddress(game_controller account)
     upVsDownGameV2.changeGameControllerAddress(accounts[idx],{"from":accounts[0]})
     assert upVsDownGameV2.gameController() == accounts[idx].address
 

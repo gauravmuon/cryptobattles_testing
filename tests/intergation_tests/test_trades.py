@@ -32,14 +32,26 @@ def test_trade_with_delay_sync(upVsDownGameV2, accounts, ether, irrevelent_num):
     # doing some trades
     # should win
     trade_1 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar1", "IN", True, "id1"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_1",
+            "countryCode": "IN",
+            "upOrDown": True,
+            "whiteLabelId": "id_1",
+        }.values()),
         {"from": accounts[5], "value": 10*ether}
     )
     print("trade 1:" + str(trade_1.events))
 
     # should lose
     trade_2 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar2", "IN", False, "id2"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_2",
+            "countryCode": "IN",
+            "upOrDown": False,
+            "whiteLabelId": "id_2",
+        }.values()),
         {"from": accounts[6], "value": 5*ether}
     )
     print("trade 2:" + str(trade_2.events))
@@ -75,14 +87,26 @@ def test_trade_fast_forward(upVsDownGameV2, accounts, ether, irrevelent_num):
     # doing some trades
     # should win
     trade_1 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar1", "IN", True, "id1"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_1",
+            "countryCode": "IN",
+            "upOrDown": True,
+            "whiteLabelId": "id_1",
+        }.values()),
         {"from": accounts[5], "value": 10*ether}
     )
     print("trade 1:" + str(trade_1.events))
 
     # should loose
     trade_2 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar2", "IN", False, "id2"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_2",
+            "countryCode": "IN",
+            "upOrDown": False,
+            "whiteLabelId": "id_2",
+        }.values()),
         {"from": accounts[6], "value": 5*ether}
     )
     print("trade 2:" + str(trade_2.events))
@@ -117,13 +141,25 @@ def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_
 
     # doing some trades
     trade_1 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar1", "IN", True, "id1"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_1",
+            "countryCode": "IN",
+            "upOrDown": True,
+            "whiteLabelId": "id_1",
+        }.values()),
         {"from": accounts[5], "value": 10*ether}
     )
     print("trade 1:" + str(trade_1.events))
 
     trade_2 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar2", "IN", True, "id2"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_2",
+            "countryCode": "IN",
+            "upOrDown": True,
+            "whiteLabelId": "id_2",
+        }.values()),
         {"from": accounts[6], "value": 5*ether}
     )
     print("trade 2:" + str(trade_2.events))
@@ -165,13 +201,25 @@ def test_trade_no_winnigs_as_all_down(upVsDownGameV2, accounts, ether, irrevelen
 
     # doing some trades
     trade_1 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar1", "IN", False, "id1"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_1",
+            "countryCode": "IN",
+            "upOrDown": False,
+            "whiteLabelId": "id_1",
+        }.values()),
         {"from": accounts[5], "value": 10*ether}
     )
     print("trade 1:" + str(trade_1.events))
 
     trade_2 = upVsDownGameV2.makeTrade(
-        (bytes(1), "avatar2", "IN", False, "id2"),
+        list({
+            "poolId": bytes(1),
+            "avatarUrl": "avatar_2",
+            "countryCode": "IN",
+            "upOrDown": False,
+            "whiteLabelId": "id_2",
+        }.values()),
         {"from": accounts[6], "value": 5*ether}
     )
     print("trade 2:" + str(trade_2.events))

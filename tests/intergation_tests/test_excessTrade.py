@@ -19,7 +19,13 @@ def test_trade_more_than_allowed_limit(upVsDownGameV2, accounts, ether, irrevele
     try:
         # trading more than allowed limit(100 ethers) should crash the call
         trade_1 = upVsDownGameV2.makeTrade(
-            (bytes(1), "avatar1", "IN", True, "id1"),
+            list({
+                "poolId": bytes(1),
+                "avatarUrl": "avatar_1",
+                "countryCode": "IN",
+                "upOrDown": True,
+                "whiteLabelId": "id_1",
+            }.values()),
             {"from": accounts[5], "value": 101*ether}
         )
         assert False
