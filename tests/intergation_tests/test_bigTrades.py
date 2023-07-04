@@ -130,7 +130,7 @@ def _helper_big_trade(upVsDownGameV2, accounts, ether, irrevelent_num, trade_id_
             == len(winners_list))
 
 
-# one trader should win in the second round out of 6 traders
+# one trader should win out of 6 traders
 def test_big_trade_1(upVsDownGameV2, accounts, ether, irrevelent_num):
 
     trade_id_amount = {
@@ -173,7 +173,7 @@ def test_big_trade_3(upVsDownGameV2, accounts, ether, irrevelent_num, idx):
 
 
 # no traders should win in this test case, rather trades should be returned
-# # because up pool have two players and down pool will have zero
+# because down pool have 5 players and up pool will have zero
 def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_num):
 
     trade_id_amount = {
@@ -188,7 +188,7 @@ def test_trade_no_winnigs_as_all_up(upVsDownGameV2, accounts, ether, irrevelent_
 
 
 # no traders should win in this test case, rather trades should be returned
-# # because up pool have two players and down pool will have zero
+# # because up pool have six players and down pool will have zero
 def test_trade_no_winnigs_as_all_down(upVsDownGameV2, accounts, ether, irrevelent_num):
 
     trade_id_amount = {

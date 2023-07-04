@@ -45,8 +45,8 @@ def test_trade_allowed_members_limit(upVsDownGameV2, accounts, ether, irrevelent
         ether,
         irrevelent_num
     )
-    # trying to add number of trades plus one extra than allowed
-    # this should generate VirtualMachineError 
+    # trying to add number of trades plus one extra, to overflow allowed
+    # limit, and this should generate VirtualMachineError 
     try:
         for x in range(round_init["pool_1_args"]["poolBetsLimit"]+1):
             minAmount = round_init["pool_1_args"]["minBetAmount"]
